@@ -1,56 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React from "react";
+import { ToastContainer } from "react-toastify";
+import "./App.css";
+import UsersList from "./features/users/UsersList";
+import Navbar from "./shared/Navbar";
+import { Container, Grid, Paper } from "@mui/material";
+import FullFeaturedCrudGrid from "./components/FullFeaturedCrudGrid";
+import LoginPage from "./pages/auth/LoginPage";
+import ForgotPasswordPage from "./pages/auth/ForgotPassword";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import Signup from "./pages/auth/Signup";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
+import { useSelector } from "react-redux";
+import NavbarLayout from "./layouts/NavbarLayout";
 
 function App() {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Routes>
+        {/* Use absolute paths and conditionally render routes */}
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" /> : <LoginPage />}
+        />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/" element={<NavbarLayout />}>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+      </Routes>
+      {/* <Navbar /> */}
+      <ToastContainer />
     </div>
   );
 }
