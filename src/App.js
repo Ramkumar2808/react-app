@@ -13,6 +13,8 @@ import Signup from "./pages/auth/Signup";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import { useSelector } from "react-redux";
 import NavbarLayout from "./layouts/NavbarLayout";
+import ClientMainPage from "./pages/clients";
+import UsersMainPage from "./pages/users";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -33,6 +35,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/clients"
+            element={
+              <ProtectedRoute>
+                <ClientMainPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <UsersMainPage />
               </ProtectedRoute>
             }
           />
